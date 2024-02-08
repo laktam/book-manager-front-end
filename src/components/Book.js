@@ -49,7 +49,7 @@ function Book(props) {
             Language : {props.language}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Genre : {props.genre}
+            Category : {props.category}
           </Typography>
           {/* deleteButton exist means we are in the userpage so no need to show by:... */}
           {!props.deleteButton && (

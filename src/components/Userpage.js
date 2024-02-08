@@ -101,7 +101,7 @@ function Userpage(props) {
                   <Book
                     style={{ flexGrow: "1" }}
                     name={book.name}
-                    genre={book.genre}
+                    category={book.category}
                     author={book.author}
                     pubDate={book.pubDate}
                     language={book.language}

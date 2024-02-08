@@ -96,9 +96,9 @@ function AddBookDialog(props) {
           autoFocus
           required
           margin="dense"
-          id="genre"
-          name="genre" //name is the one used in the object returned
-          label="genre"
+          id="category"
+          name="category" //name is the one used in the object returned
+          label="category"
           // type="email"
           fullWidth
           variant="standard"

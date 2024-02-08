@@ -13,12 +13,12 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 function Header(props) {
-  const [active, setActive] = useState("");
+  const [selectedSearch, setSelectedSearch] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,6 +28,23 @@ function Header(props) {
     props.setLoggedIn(false);
     navigate("/login");
   };
+
+  const search = (e) => {
+    const name = e.target.value;
+    if (name == "") {
+      props.setBooksFound([]);
+    } else {
+      const booksFound = [];
+      for (const book of props.books) {
+        if (book.name.includes(name)) {
+          booksFound.push(book);
+        }
+      }
+      console.log("found : ", booksFound);
+      props.setBooksFound(booksFound);
+    }
+  };
+
   return (
     <Stack
       direction="row"
@@ -44,7 +61,6 @@ function Header(props) {
       </Link>
 
       <TextField
-        id="input-with-icon-textfield"
         label="search"
         InputProps={{
           startAdornment: (
@@ -54,17 +70,53 @@ function Header(props) {
           ),
         }}
         variant="outlined"
-        // margin="none"
         size="small"
+        onChange={search}
       />
+      {/* <Autocomplete
+        id="search-auto-complete"
+        freeSolo
+        options={searchOptions.map((option) => option.name)}
+        renderInput={(params) => (
+          <Box
+            component="form"
+            sx={{ display: "flex", alignItems: "flex-end" }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              search();
+              return false;
+            }}
+          >
+            <SearchIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+            <TextField
+              {...params}
+              label="search"
+              variant="outlined"
+              size="small"
+              // value={selectedSearch}
+              // onChange={(e) => {
+              //   setSelectedSearch(e.target.value);
+              // }}
+              // onInput={(e) => {
+              //   setSelectedSearch(e.target.value);
+              // }}
+              onChange={(e) => {
+                setSelectedSearch(e.target.value);
+              }}
+            />
+          </Box>
+         
+        )}
+      /> */}
       {props.loggedIn ? (
         <Stack direction="row">
           <Link to={"/user/" + props.username}>
             <IconButton size="large">
               <AccountCircleIcon
                 color={
-                  (location.pathname ==
-                    "/user/" + props.username ? "primary" : "")
+                  location.pathname == "/user/" + props.username
+                    ? "primary"
+                    : ""
                 }
               />
             </IconButton>

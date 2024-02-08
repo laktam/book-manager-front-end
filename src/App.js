@@ -43,15 +43,24 @@ function App() {
       }
     }
   }, [loggedIn]);
+
+  const [booksFound, setBooksFound] = useState([]);
+
   return (
     <div className="App">
       <Header
         loggedIn={loggedIn}
         setLoggedIn={setLoggedIn}
         username={username}
+        books={books}
+        setBooksFound={setBooksFound}
       />
       <Routes>
-        <Route path="/" element={<Home books={books} />} />
+        <Route
+          path="/"
+          element={<Home booksFound={booksFound} books={books} />}
+          // if booksFound is not empty show them instead of books from backend
+        />
         <Route
           path="/login"
           element={
