@@ -4,7 +4,8 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import Book from "./Book";
-import { Divider, Grid, Paper, Typography } from "@mui/material";
+import { Divider, Fab, Grid, Paper, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 //redirect to login if not login
 //else show books
@@ -12,6 +13,8 @@ function Home(props) {
   const [active, setActive] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCat, setSelectedCat] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -32,14 +35,19 @@ function Home(props) {
     }
   }, [props.booksFound]);
 
+  const transfromToTable = () => {
+    // navigate("http://localhost:5000/transform");
+    window.location.href = "http://localhost:5000/transform";
+  };
+
   return (
     <Stack
       direction="row"
-      justifyContent="flex-start"
+      // justifyContent="flex-start"
       sx={{ p: "15px", pt: "20px" }}
       spacing={1}
+      justifyContent={props.booksFound.length > 0 ? "center" : "flex-start"}
     >
-      {/* <ButtonGroup orientation="vertical" variant="text" size="small"> */}
       <Stack>
         {
           //don't show categories when we are serching
@@ -77,12 +85,9 @@ function Home(props) {
         }
       </Stack>
 
-      {/* </ButtonGroup> */}
-      {/* <Stack spacing={1} direction="row"  flexWrap="wrap"> */}
-
-      <Grid container spacing={3}>
+      <Stack alignItems="center" spacing={2}>
         {
-          //check if there books in booksFound : that means that we are searchin
+          //check if there books in booksFound : that means that we are searchin : add title "books found"
           props.booksFound.length > 0 ? (
             <Grid item xs={12}>
               <Typography variant="h5" align="center">
@@ -93,13 +98,13 @@ function Home(props) {
             ""
           )
         }
-        {
-          //check if there books in booksFound : that means that we are searchin
-          props.booksFound.length > 0
-            ? props.booksFound.map((book, index) => {
-                return (
-                  <Grid item key={index} xs={12} md={6}>
-                    <Paper sx={{ padding: "15px" }}>
+        <Stack direction="row" flexWrap="wrap" useFlexGap>
+          {
+            //check if there books in booksFound : that means that we are searchin : add books
+            props.booksFound.length > 0
+              ? props.booksFound.map((book, index) => {
+                  return (
+                    <Paper sx={{ padding: "15px", m: "5px" }} key={index}>
                       <Book
                         style={{ flexGrow: "1" }}
                         name={book.name}
@@ -112,17 +117,15 @@ function Home(props) {
                         by={book.by}
                       />
                     </Paper>
-                  </Grid>
-                );
-              })
-            : //if no search ("") we display all books or by category
-              props.books.map((book, index) => {
-                if (selectedCat === "") {
-                  return (
-                    <Grid item key={index} xs={12} md={6}>
-                      <Paper sx={{ padding: "15px" }}>
+                  );
+                })
+              : //if no search ("") we display all books or by category
+                props.books.map((book, index) => {
+                  if (selectedCat === "") {
+                    return (
+                      <Paper sx={{ padding: "15px", m: "15px" }} key={index}>
                         <Book
-                          style={{ flexGrow: "1" }}
+                          // style={{ flexGrow: "1" }}
                           name={book.name}
                           category={book.category}
                           author={book.author}
@@ -133,16 +136,14 @@ function Home(props) {
                           by={book.by}
                         />
                       </Paper>
-                    </Grid>
-                  );
-                } else {
-                  //if a category is selected only return books that match it
-                  if (book.category === selectedCat) {
-                    return (
-                      <Grid item key={index} xs={12} md={6}>
-                        <Paper sx={{ padding: "15px" }}>
+                    );
+                  } else {
+                    //if a category is selected only return books that match it
+                    if (book.category === selectedCat) {
+                      return (
+                        <Paper sx={{ padding: "15px", m: "15px" }} key={index}>
                           <Book
-                            style={{ flexGrow: "1" }}
+                            // style={{ flexGrow: "1" }}
                             name={book.name}
                             category={book.category}
                             author={book.author}
@@ -153,14 +154,27 @@ function Home(props) {
                             by={book.by}
                           />
                         </Paper>
-                      </Grid>
-                    );
+                      );
+                    }
                   }
-                }
-              })
-        }
-      </Grid>
-      {/* </Stack> */}
+                })
+          }
+        </Stack>
+      </Stack>
+      <Fab
+        color="primary"
+        sx={{
+          position: "fixed",
+          bottom: 20,
+          right: 20,
+        }}
+        variant="extended"
+        size="small"
+        onClick={transfromToTable}
+      >
+        {/* < */}
+        Transform to table
+      </Fab>
     </Stack>
   );
 }

@@ -57,7 +57,7 @@ function Userpage(props) {
       .catch((error) => {
         console.error("Error getting books:", error);
       });
-  }, [user]);
+  }, [user]); //[user]
   // user can be changed if we add a book or delete one (setUser passed to <book/>)
 
   return (
@@ -91,31 +91,29 @@ function Userpage(props) {
           {user.description}
         </Typography>
       </Paper>
-      <Grid container spacing={3}>
+      <Stack direction="row" flexWrap="wrap" useFlexGap>
         {user.books &&
           Array.isArray(user.books.book) &&
           user.books.book.map((book, index) => {
             return (
-              <Grid item key={index} xs={12} md={6}>
-                <Paper sx={{ padding: "15px" }}>
-                  <Book
-                    style={{ flexGrow: "1" }}
-                    name={book.name}
-                    category={book.category}
-                    author={book.author}
-                    pubDate={book.pubDate}
-                    language={book.language}
-                    description={book.description}
-                    imgSrc={book.imgSrc}
-                    by={params.username}
-                    setUser={setUser} //passing this so i update user books when i delete a book
-                    deleteButton={storedUsername == user.username}
-                  />
-                </Paper>
-              </Grid>
+              <Paper sx={{ padding: "15px", m: "15px" }} key={index}>
+                <Book
+                  // style={{ flexGrow: "1" }}
+                  name={book.name}
+                  category={book.category}
+                  author={book.author}
+                  pubDate={book.pubDate}
+                  language={book.language}
+                  description={book.description}
+                  imgSrc={book.imgSrc}
+                  by={params.username}
+                  setUser={setUser} //passing this so i update user books when i delete a book
+                  deleteButton={storedUsername == user.username}
+                />
+              </Paper>
             );
           })}
-      </Grid>
+      </Stack>
     </Stack>
   );
 }

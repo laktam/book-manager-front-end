@@ -3,7 +3,6 @@ import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { useContext } from "react";
 
 function Book(props) {
   const deleteBook = (bookName, by) => {
@@ -21,43 +20,16 @@ function Book(props) {
 
   return (
     <Stack spacing={3}>
-      <Stack direction="row" spacing={5} alignItems="start">
-        <img width={"30%"} src={"http://localhost:5000" + props.imgSrc} />
-        {/* <div style={{ width: "25%", position: "relative" }}>
-          <img
-            src={"http://localhost:5000" + props.imgSrc}
-            alt="Book Cover"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              objectPosition: "center",
-            }}
-          />
-        </div> */}
-        <Stack>
+      <Link to={"/book/" + props.name}>
+        <img width={"200px"} src={"http://localhost:5000" + props.imgSrc} />
+      </Link>
+      <Stack direction="row" justifyContent="space-between">
+        <Link to={"/book/" + props.name}>
           <Typography variant="body1" gutterBottom>
-            Name : {props.name}
+            {props.name}
           </Typography>
-          <Typography variant="body1" gutterBottom>
-            Author : {props.author}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Publication date : {props.pubDate}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Language : {props.language}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Category : {props.category}
-          </Typography>
-          {/* deleteButton exist means we are in the userpage so no need to show by:... */}
-          {!props.deleteButton && (
-            <Typography variant="body1" gutterBottom>
-              By : <Link to={"/user/" + props.by}>{props.by}</Link>
-            </Typography>
-          )}
-        </Stack>
+        </Link>
+
         {props.deleteButton && (
           <IconButton
             onClick={() => {
@@ -68,9 +40,6 @@ function Book(props) {
           </IconButton>
         )}
       </Stack>
-      <Typography variant="body1" gutterBottom>
-        {props.description}
-      </Typography>
     </Stack>
   );
 }

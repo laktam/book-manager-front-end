@@ -24,19 +24,24 @@ function Header(props) {
 
   const logout = () => {
     localStorage.setItem("loggedIn", "false");
-    localStorage.setItem("username", "");
+    // localStorage.setItem("username", "");
+    localStorage.removeItem("username");
+
     props.setLoggedIn(false);
     navigate("/login");
   };
 
   const search = (e) => {
+    //redirect to home first to display books there
+    navigate("/");
+
     const name = e.target.value;
     if (name == "") {
       props.setBooksFound([]);
     } else {
       const booksFound = [];
       for (const book of props.books) {
-        if (book.name.includes(name)) {
+        if (book.name.toLowerCase().includes(name.toLowerCase())) {
           booksFound.push(book);
         }
       }

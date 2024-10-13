@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import Userpage from "./components/Userpage";
 import { useState, createContext, useEffect } from "react";
 import axios from "axios";
+import BookPage from "./components/BookPage";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -73,6 +74,12 @@ function App() {
           element={<Userpage setBooks={setBooks} />}
         />
         {/* passing setBooks here so we can update books list in home when we add a book in the uesrpage */}
+        <Route
+          path="book/:bookName"
+          element={
+            <BookPage setBooks={setBooks} books={books} username={username} />
+          } //using the username loggedin to see if i should display remove button
+        />
       </Routes>
     </div>
   );

@@ -115,6 +115,8 @@ function AddBookDialog(props) {
           fullWidth
           variant="standard"
           size="small"
+          multiline
+          rows={3}
         />
         <TextField
           autoFocus
